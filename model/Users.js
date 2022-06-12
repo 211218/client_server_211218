@@ -9,7 +9,9 @@ const User = getData.sequelizeClient.define('users',{
     password: Sequelize.STRING,
     phone_number: Sequelize.STRING,
 },{
-    tableName: 'users'
+    tableName: 'users',
+    createdAt: false,
+    updatedAt: false,
 });
 
 export const getUser = User;
