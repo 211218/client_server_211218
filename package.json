@@ -5,9 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=development node app.js",
-    "start:test": "cross-env NODE_ENV=test node app.js",
-    "start:prod": "cross-env NODE_ENV=production node app.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon app.js",
+    "start:test": "cross-env NODE_ENV=test nodemon app.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon app.js",
     "sequelize": "dotenv sequelize",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node app.js"
@@ -28,6 +28,7 @@
     "node": "16.15.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.16"
   }
 }
