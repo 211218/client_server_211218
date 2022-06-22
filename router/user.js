@@ -17,7 +17,7 @@ router.get("/success", function (req, res) {
 router.get("/list", async function (req, res) {
   getUser
     .findAll({
-      exclude: [],
+      attributes: ["username", "email", "password", "phone_number"],
     })
     .then((users) => {
       res.send(users);
