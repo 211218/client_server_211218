@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { db } from '../config/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
+
 const __dirname = path.dirname(__filename);
 
 const data = dotenv.config({
@@ -44,14 +45,14 @@ const sequelizeClient = (() => {
     }
 })();
 
-sequelizeClient.sync({ force: true })
+
+
+sequelizeClient.sync({ alter: true })
     .then(() => {
-        console.log('Conexion exitosa')
+        console.log('Conectado')
     })
     .catch((err) => {
-        console.log('Lo siento no se pudo conectar', err)
+        console.log('No se conecto', err)
     });
 
 export const getData = { sequelizeClient };
-
-

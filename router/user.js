@@ -1,23 +1,17 @@
 import { Router } from "express";
-import { success } from "./response.js";
-import { getUser } from "../models/Users.js";
+import { getUser } from "../model/users.js";
+import { getFather } from "../model/father.js";
 
 const router = Router();
 
-const user = getUser.build({
-  attributes: ["id", "username", "email", "password", "phone_number"],
-});
-console.log(user instanceof getUser);
-console.log(user.username);
-
-router.get("/success", function (req, res) {
-  success(req, res, "", 200);
-});
-
-router.get("/list", async function (req, res) {
+router.get("/all_users", async function (req, res) {
   getUser
     .findAll({
-      attributes: ["username", "email", "password", "phone_number"],
+      include: {
+        model: getFather,
+        attributes: ["name", "lastNamef", "lastNamem", "age"],
+      },
+      attributes: ["name", "lastName", "email", "password", "phone_number"],
     })
     .then((users) => {
       res.send(users);
@@ -27,10 +21,11 @@ router.get("/list", async function (req, res) {
     });
 });
 
-router.post("/add", async function (req, res) {
+router.post("/create_users", async function (req, res) {
   getUser
     .create({
-      username: req.query.username,
+      name: req.query.name,
+      lastName: req.query.lastName,
       email: req.query.email,
       password: req.query.password,
       phone_number: req.query.phone_number,
@@ -43,29 +38,30 @@ router.post("/add", async function (req, res) {
     });
 });
 
-router.put("/update/:id", (req, res) => {
-  const id = req.params.id;
-  const updates = req.query;
+router.put("/update_users", async function (req, res) {
+  let newDato = req.query;
   getUser
     .findOne({
-      where: { id: id },
+      where: {
+        id:  req.query.id
+      },
     })
-    .then((del) => {
-      return del.update(updates);
-    })
-    .then((updated) => {
-      res.json(updated);
+    .then((users) => {
+      users.update(newDato).then((newuser) => {
+        res.send(newuser);
+      });
     });
 });
 
-router.delete("/delete/:id", (req, res) => {
-  const id = req.params.id;
+router.delete("/delete_users", async function (req, res) {
   getUser
     .destroy({
-      where: { id: id },
+      where: {
+        id: req.query.id
+      },
     })
-    .then((deleted) => {
-      res.json(deleted);
+    .then(() => {
+      res.send("person delete");
     });
 });
 
